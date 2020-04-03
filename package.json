@@ -1,0 +1,25 @@
+{
+  "name": "share-b-and-c",
+  "version": "1.0.0",
+  "description": "Open Source Online Teaching Platform",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vkartik2k/Share-B-and-C.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vkartik2k/Share-B-and-C/issues"
+  },
+  "homepage": "https://github.com/vkartik2k/Share-B-and-C#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "monaco-editor": "^0.20.0",
+    "mysql2": "^2.1.0",
+    "sequelize": "^5.21.5"
+  }
+}
