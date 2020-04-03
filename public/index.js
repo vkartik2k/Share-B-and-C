@@ -1,6 +1,17 @@
+let variables = {
+    color : 'white',
+    colorPalatte : {
+        'white' : 'white',
+        'teal' : 'teal',
+        'red' : 'rgb(204, 3, 3)',
+        'purple' : '#626ee3',
+        'brown' : 'rgb(126, 47, 47)'
+    },
+    language : 'cpp'
+}
 const x  = document.getElementById("drawEditor");
 const canvas = document.getElementById('drawBoard')
-canvas.height = x.offsetHeight - 70
+canvas.height = x.offsetHeight
 canvas.width = x.offsetWidth
 
 require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor@latest/min/vs' }});
@@ -16,7 +27,7 @@ let proxy = URL.createObjectURL(new Blob([`
 require(["vs/editor/editor.main"], function () {
 	window.editor = monaco.editor.create(document.getElementById('codeEditor'), {
 		value: '#include<bits/stdc++.h>\nusing namespace std;\n\nint main() {\n\n\treturn 0;\n\n}\n',
-        language: 'cpp',
+        language: variables.language,
         fontSize: '12px',
         minimap: {
             enabled: false
@@ -55,7 +66,7 @@ function dragElement( element, direction) {
         window.editor.layout();
         const x  = document.getElementById("drawEditor");
         const canvas = document.getElementById('drawBoard')
-        canvas.height = x.offsetHeight - 70
+        canvas.height = x.offsetHeight-4
         canvas.width = x.offsetWidth
     }
 }
@@ -78,15 +89,32 @@ const draw = e => {
     if(!painting) return;
     context.lineWidth = 2;
     context.lineCap = "round"
-    context.strokeStyle='white'
+    context.strokeStyle= variables.color
 
-    context.lineTo(e.clientX, e.clientY-70);
+    context.lineTo(e.clientX-8, e.clientY-58);
     context.stroke();
     context.beginPath();
-    context.moveTo(e.clientX, e.clientY-70); 
+    context.moveTo(e.clientX-8, e.clientY-58); 
 }
 
 canvas.addEventListener('mousedown', startPainting)
 canvas.addEventListener('mouseup', endPainting)
 
 canvas.addEventListener('mousemove', draw)
+
+for(let propt in variables.colorPalatte){
+    document.getElementById(propt).onclick = () => {
+        variables.color = variables.colorPalatte[propt]
+        for(let item in variables.colorPalatte) {
+            document.getElementById(item).classList.remove('selectedColor');
+        }
+        document.getElementById(propt).classList.add('selectedColor');
+    }
+}
+
+document.getElementById('languages').onchange = () => {
+    let i = document.getElementById('languages').selectedIndex
+    let arr = document.getElementById('languages').options
+    variables.language = arr[i]
+    window.editor.language = variables.language
+}
