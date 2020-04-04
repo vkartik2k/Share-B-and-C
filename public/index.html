@@ -63,40 +63,30 @@
                 </div>
             </div>
             <div>
-                <select class="dropDown">
-                    <option value="volvo">2 px</option>
-                    <option value="saab">1 px</option>
-                    <option value="opel">3 px</option>
-                    <option value="audi">4 px</option>
-                    <option value="audi">5 px</option>
-                    <option value="audi">6 px</option>
+                <select class="dropDown" id="strokeSize">
+                    <option value="1">1 px</option>
+                    <option value="2" selected>2 px</option>
+                    <option value="3">3 px</option>
+                    <option value="4">4 px</option>
+                    <option value="5">5 px</option>
+                    <option value="6">6 px</option>
                 </select>
             </div>
 
             <div>
                 <select class="dropDown" id="languages">
-                    <option value="volvo">Cpp</option>
-                    <option value="saab">JavaScript </option>
-                    <option value="opel">Python</option>
-                    <option value="audi">C</option>
-                    <option value="audi">Dart</option>
-                    <option value="audi">MarkDown</option>
+                    <option value="cpp">C++</option>
+                    <option value="javascript">JavaScript </option>
+                    <option value="python">Python</option>
+                    <option value="c">C</option>
+                    <option value="dart">Dart</option>
+                    <option value="markdown">MarkDown</option>
                 </select>
             </div>
             <div>
-                <select class="dropDown">
-                    <option value="volvo">Light</option>
-                    <option value="saab">Dark</option>
-                </select>
-            </div>
-            <div>
-                <select class="dropDown">
-                        <option value="volvo">12 px</option>
-                        <option value="saab">11 px</option>
-                        <option value="opel">13 px</option>
-                        <option value="audi">14 px</option>
-                        <option value="audi">15 px</option>
-                        <option value="audi">16 px</option>
+                <select class="dropDown" id="themes">
+                    <option value="vs-light">Light</option>
+                    <option value="vs-dark">Dark</option>
                 </select>
             </div>
         </div>
@@ -112,7 +102,7 @@
         </div>
         <div id="footer">
             <div>
-                <button class="btn redBtn"> &nbsp;•&nbsp; Record&nbsp;</button>
+                <button class="btn redBtn" id="recordBtn"> &nbsp;•&nbsp; Record&nbsp;</button>
             </div>
             <div>
                 <input class="textInput" placeholder="Enter your message here ... " />
@@ -124,12 +114,10 @@
         <div class="message">Sure Sir</div>
         <div class="message">Do we have a class tomm.?</div>
         <div class="message">Yes Sir</div>
-
     </div>
 
     <script src="https://unpkg.com/monaco-editor@latest/min/vs/loader.js"></script>
 
     <script src="./index.js"></script>
 </body>
-
 </html>
