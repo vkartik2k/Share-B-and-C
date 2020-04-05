@@ -3,6 +3,8 @@ $(document).ready( function () {
     $('#drawBoard')[0].width=$('#drawEditor').width()
     const context = $('#drawBoard')[0].getContext('2d')
 
+    $(window).resize(()=>location.reload())
+
     let variables = {
         color: 'white',
         colorPalatte: {
@@ -88,6 +90,7 @@ $(document).ready( function () {
         firebase.auth().signInWithPopup(provider).then(result => {
             $('#avator').attr('src', result.user.photoURL)
             $('#avatorContainer').show()
+            $('#joinRoomBtnContainer').show()
             $('#signInContainer').hide()
         }).catch(err => console.error(err))
     }
@@ -110,10 +113,10 @@ $(document).ready( function () {
             context.lineCap = "round"
             context.strokeStyle = variables.color
 
-            context.lineTo(e.clientX - 8, e.clientY - 50)
+            context.lineTo(e.clientX-8, e.clientY - 42)
             context.stroke()
             context.beginPath()
-            context.moveTo(e.clientX - 8, e.clientY - 50)
+            context.moveTo(e.clientX-8, e.clientY - 42)
         }
 
         const canvas = $('#drawBoard')[0]
@@ -122,67 +125,67 @@ $(document).ready( function () {
 
         canvas.addEventListener('mousemove', draw)
     }
+
+    function enableSettings() {
+        for (let propt in variables.colorPalatte) {
+            document.getElementById(propt).onclick = () => {
+                variables.color = variables.colorPalatte[propt]
+                for (let item in variables.colorPalatte) {
+                    document.getElementById(item).classList.remove('selectedColor')
+                }
+                document.getElementById(propt).classList.add('selectedColor')
+            }
+        }
+    
+        document.getElementById('languages').onchange = () => {
+            let i = document.getElementById('languages').selectedIndex
+            let arr = document.getElementById('languages').options
+            variables.language = arr[i].value
+            console.log(variables.language)
+            let model = window.editor.getModel()
+            monaco.editor.setModelLanguage(model, variables.language)
+    
+    
+            var e = document.querySelector("#codeEditor") 
+            var child = e.lastElementChild  
+            while (child) { 
+                e.removeChild(child) 
+                child = e.lastElementChild 
+            } 
+            window.editor = monaco.editor.create(document.getElementById('codeEditor'), {
+                value: variables.defaultCode[variables.language],
+                language: variables.language,
+                fontSize: variables.fontSize,
+                minimap: {
+                    enabled: false
+                },
+    
+            })
+            window.editor.onDidChangeModelContent((event => {
+                console.log(event)
+            }))
+        }
+    
+        document.getElementById('themes').onchange = () => {
+            let i = document.getElementById('themes').selectedIndex
+            let arr = document.getElementById('themes').options
+            variables.theme = arr[i].value
+            console.log(variables.theme)
+            let model = window.editor.getModel()
+            monaco.editor.setTheme(variables.theme)
+        }
+    
+        document.getElementById('strokeSize').onchange = () => {
+            let i = document.getElementById('strokeSize').selectedIndex
+            let arr = document.getElementById('strokeSize').options
+            variables.strokeSize = parseInt(arr[i].value)
+            console.log(variables.strokeSize)
+        }
+    }
     
     loadCodeEditor()
     dragElement($('#mainSlider')[0], "H")
     $('#signIn').click(signIn)
     enableDrawing()
-
-    $(window).resize(()=>location.reload())
-
-    for (let propt in variables.colorPalatte) {
-        document.getElementById(propt).onclick = () => {
-            variables.color = variables.colorPalatte[propt]
-            for (let item in variables.colorPalatte) {
-                document.getElementById(item).classList.remove('selectedColor')
-            }
-            document.getElementById(propt).classList.add('selectedColor')
-        }
-    }
-
-
-    document.getElementById('languages').onchange = () => {
-        let i = document.getElementById('languages').selectedIndex
-        let arr = document.getElementById('languages').options
-        variables.language = arr[i].value
-        console.log(variables.language)
-        let model = window.editor.getModel()
-        monaco.editor.setModelLanguage(model, variables.language)
-
-
-        var e = document.querySelector("#codeEditor") 
-        var child = e.lastElementChild  
-        while (child) { 
-            e.removeChild(child) 
-            child = e.lastElementChild 
-        } 
-        window.editor = monaco.editor.create(document.getElementById('codeEditor'), {
-            value: variables.defaultCode[variables.language],
-            language: variables.language,
-            fontSize: variables.fontSize,
-            minimap: {
-                enabled: false
-            },
-
-        })
-        window.editor.onDidChangeModelContent((event => {
-            console.log(event)
-        }))
-    }
-
-    document.getElementById('themes').onchange = () => {
-        let i = document.getElementById('themes').selectedIndex
-        let arr = document.getElementById('themes').options
-        variables.theme = arr[i].value
-        console.log(variables.theme)
-        let model = window.editor.getModel()
-        monaco.editor.setTheme(variables.theme)
-    }
-
-    document.getElementById('strokeSize').onchange = () => {
-        let i = document.getElementById('strokeSize').selectedIndex
-        let arr = document.getElementById('strokeSize').options
-        variables.strokeSize = parseInt(arr[i].value)
-        console.log(variables.strokeSize)
-    }
+    enableSettings()
 })

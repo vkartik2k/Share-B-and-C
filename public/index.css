@@ -134,15 +134,24 @@ html, body {
 .btn {
     background-color: rgb(243, 243, 243);
     padding: 8px;
-    border: 1px solid rgb(195, 0, 0);
-    color: rgb(195, 0, 0);
+    border: 1px solid rgb(26, 26, 26);
+    color: rgb(26, 26, 26);
     border-radius: 5px;
     min-width: 80px;
     margin: 10px;
 }
 
+.redBtn {
+    border: 1px solid rgb(195, 0, 0);
+    color: rgb(195, 0, 0);
+}
+
 .btn:hover {
     transition: 0.5s;
+    color: rgb(243, 243, 243);
+    background-color: rgb(26, 26, 26);
+}
+.redBtn:hover {
     color: rgb(243, 243, 243);
     background-color: rgb(195, 0, 0);
 }

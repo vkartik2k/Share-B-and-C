@@ -7,9 +7,10 @@ The objective of this platform is to provide share board and code to users in sa
 ## Todo
 
 - [ ] design icons and logo
-- [ ] resizing issue
-- [ ] authentication
+- [X] resizing issue
+- [X] authentication
 - [ ] sockets
+- [X] Schema in firebase
 - [ ] tokenise data for transmission
 - [ ] Record option
 - [ ] page to play recorded videos
