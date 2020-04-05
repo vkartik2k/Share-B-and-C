@@ -181,3 +181,23 @@ html, body {
     color: rgb(243, 243, 243)   ;
     border-radius: 5px;
 }
+
+#avatorContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding-right: 15px;
+}
+
+#avator {
+    height: 30px;
+    width: 30px;
+    border-radius: 16px;
+    box-sizing: content-box;
+}
+
+#avator:hover {
+    border: 2px solid rgb(204, 204, 204);
+}

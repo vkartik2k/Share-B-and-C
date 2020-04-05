@@ -173,4 +173,15 @@ document.getElementById('strokeSize').onchange = () => {
     console.log(variables.strokeSize)
 }
 
-document.getElementById()
+function signIn() {
+    console.log("Google Sign In called")
+    let provider = new firebase.auth.GoogleAuthProvider();
+    provider.addScope('https://www.googleapis.com/auth/contacts.readonly')
+    firebase.auth().signInWithPopup(provider).then(result => {
+        console.log("Signed In")
+        console.log(result.user.photoURL)
+        $('#avator').attr('src', result.user.photoURL)
+        $('#avatorContainer').show();
+        $('#signInContainer').hide();
+    }).catch(err => console.error(err))
+}

@@ -5,7 +5,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Share B&C</title>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <!-- <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase.js"></script> -->
+    <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-firestore.js"></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-analytics.js"></script>
+
+    <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+        apiKey: "AIzaSyCfIuWfph4a3TYFi8QgVlABiovQyCN1NkE",
+        authDomain: "share-bnc.firebaseapp.com",
+        databaseURL: "https://share-bnc.firebaseio.com",
+        projectId: "share-bnc",
+        storageBucket: "share-bnc.appspot.com",
+        messagingSenderId: "430631139939",
+        appId: "1:430631139939:web:6fef84d0f6fd6873f09656",
+        measurementId: "G-LK0ZHCDDVV"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+
+    </script>
 
     <link rel="stylesheet" href="./index.css">
 </head>
@@ -89,6 +117,13 @@
                     <option value="vs-dark">Dark</option>
                 </select>
             </div>
+            <div style="flex:1;"></div>
+            <div id="signInContainer">
+                <button class="btn redBtn" id="signIn" onclick="signIn()">Sign In With Google</button>
+            </div>
+            <div id="avatorContainer" style="display: none;">
+                <img src="https://lh5.googleusercontent.com/-pI-3gMu19MQ/AAAAAAAAAAI/AAAAAAAAAAA/AAKWJJPnRM0Bm7CqRstC8J2OGH1iuvir4g/photo.jpg" id="avator"/>
+            </div>
         </div>
         <div id="mainContainer">
             <div id="drawEditor">
@@ -117,7 +152,6 @@
     </div>
 
     <script src="https://unpkg.com/monaco-editor@latest/min/vs/loader.js"></script>
-
     <script src="./index.js"></script>
 </body>
 </html>
