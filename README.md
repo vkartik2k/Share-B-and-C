@@ -13,7 +13,6 @@ The objective of this platform is to provide share board and code to users in sa
 - [ ] tokenise data for transmission
 - [ ] Record option
 - [ ] page to play recorded videos
-- [ ] organise javascript 
 
 
 ## Contributions
