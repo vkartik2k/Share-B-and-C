@@ -11,7 +11,7 @@ The objective of this platform is to provide share board and code to users in sa
 - [X] authentication
 - [ ] sockets
 - [X] Schema in firebase
-- [ ] tokenise data for transmission
+- [X] tokenise data for transmission
 - [ ] Record option
 - [ ] page to play recorded videos
 
@@ -19,21 +19,3 @@ The objective of this platform is to provide share board and code to users in sa
 ## Contributions
 
 Contribution to issues mentioned are always welcomed.
-
-
-
-window.editor.executeEdits("", [
-     { range: obj.changes[0].range, text: obj.changes[0].text }
-]);
-
-use this to update the data
-
-function writeInCodeEditor(obj) {
-        db.collection("codeEditor").doc(variables.codeEditorId).set(obj)
-        .then(function() {
-            console.log("Object successfully written!");
-        })
-        .catch(function(error) {
-            console.error("Error writing document: ", error);
-        });
-    }

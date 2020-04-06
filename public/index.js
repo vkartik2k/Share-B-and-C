@@ -31,21 +31,24 @@ $(document).ready( function () {
     }
 
     function writeInCodeEditor(obj) {
-        db.collection("codeEditor").doc(variables.codeEditorId).set({content : [{
-            range : {
-                endColumn: obj.changes[0].range.endColumn,
-                endLineNumber: obj.changes[0].range.endLineNumber,
-                startColumn: obj.changes[0].range.startColumn,
-                startLineNumber: obj.changes[0].range.startLineNumber
-            },
-            text : obj.changes[0].text
-        }]})
-        .then(function() {
-            console.log("Object successfully written!");
-        })
-        .catch(function(error) {
-            console.error("Error writing document: ", error);
-        });
+        if(localStorage.user == "a") {
+            db.collection("codeEditor").doc(variables.codeEditorId).set({content : [{
+                range : {
+                    startLineNumber: obj.changes[0].range.startLineNumber,
+                    startColumn: obj.changes[0].range.startColumn,
+                    endLineNumber: obj.changes[0].range.endLineNumber,
+                    endColumn: obj.changes[0].range.endColumn,
+                    
+                },
+                text : obj.changes[0].text
+            }]})
+            .then(function() {
+                console.log("Object successfully written!");
+            })
+            .catch(function(error) {
+                console.error("Error writing document: ", error);
+            });
+        }
     }
 
     function loadCodeEditor () {
@@ -214,7 +217,21 @@ $(document).ready( function () {
     $('#signIn').click(signIn)
     enableDrawing()
     enableSettings()
-    db.collection("codeEditor").doc(variables.codeEditorId).onSnapshot(function(snapshot) { 
-        console.log(snapshot.data())
-    });
+    if(localStorage.user != "a") {
+        db.collection("codeEditor").doc(variables.codeEditorId).onSnapshot(function(snapshot) { 
+            let newObj = new monaco.Range(1,1,1,1)
+            console.log(newObj)
+            window.editor.executeEdits("", [
+                { range: new monaco.Range(
+                    snapshot.data().content[0].range.startLineNumber,
+                    snapshot.data().content[0].range.startColumn,
+                    
+                    snapshot.data().content[0].range.endLineNumber,
+                    
+                    snapshot.data().content[0].range.endColumn,
+                    
+                ), text: snapshot.data().content[0].text }
+           ]);
+        });
+    }
 })
