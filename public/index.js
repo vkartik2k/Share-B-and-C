@@ -1,4 +1,6 @@
 $(document).ready( function () {
+
+    let db = firebase.firestore();
     $('#drawBoard')[0].height= $('#drawEditor').height()
     $('#drawBoard')[0].width=$('#drawEditor').width()
     const context = $('#drawBoard')[0].getContext('2d')
@@ -22,13 +24,28 @@ $(document).ready( function () {
             'markdown': '# Heading 1',
             'dart': '// code in dart here'
         },
-        editorValue: '#include<bits/stdc++.h>\nusing namespace std\n\nint main() {\n\n\treturn 0\n\n}\n',
-        language: 'cpp',
-        fontSize: '12px',
-        theme : 'vs-light',
         strokeSize : 2,
         isRecording : false,
-        timer : "00:00"
+        timer : "00:00",
+        codeEditorId : 'fwUqAbDCPHAi7Mi09GYz'
+    }
+
+    function writeInCodeEditor(obj) {
+        db.collection("codeEditor").doc(variables.codeEditorId).set({content : [{
+            range : {
+                endColumn: obj.changes[0].range.endColumn,
+                endLineNumber: obj.changes[0].range.endLineNumber,
+                startColumn: obj.changes[0].range.startColumn,
+                startLineNumber: obj.changes[0].range.startLineNumber
+            },
+            text : obj.changes[0].text
+        }]})
+        .then(function() {
+            console.log("Object successfully written!");
+        })
+        .catch(function(error) {
+            console.error("Error writing document: ", error);
+        });
     }
 
     function loadCodeEditor () {
@@ -43,14 +60,15 @@ $(document).ready( function () {
 
         require(["vs/editor/editor.main"], function () {
             window.editor = monaco.editor.create(document.getElementById('codeEditor'), {
-                value: variables.editorValue,
-                language: variables.language,
-                fontSize: variables.fontSize,
+                value: localStorage.editorValue,
+                language: localStorage.language,
+                fontSize: localStorage.fontSize,
                 minimap: {
                     enabled: false
-                }
+                },
+                theme : localStorage.theme
             })
-            window.editor.onDidChangeModelContent((event => console.log(event)))
+            window.editor.onDidChangeModelContent((event => writeInCodeEditor(event)))
         })
     }
 
@@ -87,12 +105,21 @@ $(document).ready( function () {
     function signIn() {
         let provider = new firebase.auth.GoogleAuthProvider()
         provider.addScope('https://www.googleapis.com/auth/contacts.readonly')
-        firebase.auth().signInWithPopup(provider).then(result => {
-            $('#avator').attr('src', result.user.photoURL)
-            $('#avatorContainer').show()
-            $('#joinRoomBtnContainer').show()
-            $('#signInContainer').hide()
-        }).catch(err => console.error(err))
+        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+        .then(function() {
+            return firebase.auth().signInWithPopup(provider).then(result => {
+                $('#avator').attr('src', result.user.photoURL)
+                $('#avatorContainer').show()
+                $('#joinRoomBtnContainer').show()
+                $('#signInContainer').hide()
+                console.log("hello ji")
+            }).catch(err => console.error(err))
+            
+        })
+        .catch(function(error) {
+            console.error(error.message)
+        })
+        
     }
 
     function enableDrawing() {
@@ -140,39 +167,38 @@ $(document).ready( function () {
         document.getElementById('languages').onchange = () => {
             let i = document.getElementById('languages').selectedIndex
             let arr = document.getElementById('languages').options
-            variables.language = arr[i].value
-            console.log(variables.language)
+            localStorage.language = arr[i].value
             let model = window.editor.getModel()
-            monaco.editor.setModelLanguage(model, variables.language)
-    
-    
+            monaco.editor.setModelLanguage(model, localStorage.language)
             var e = document.querySelector("#codeEditor") 
             var child = e.lastElementChild  
             while (child) { 
                 e.removeChild(child) 
                 child = e.lastElementChild 
             } 
+            localStorage.editorValue = variables.defaultCode[localStorage.language]
             window.editor = monaco.editor.create(document.getElementById('codeEditor'), {
-                value: variables.defaultCode[variables.language],
-                language: variables.language,
-                fontSize: variables.fontSize,
+                value: localStorage.editorValue,
+                language: localStorage.language,
+                fontSize: localStorage.fontSize,
                 minimap: {
                     enabled: false
                 },
+                theme : localStorage.theme
     
             })
             window.editor.onDidChangeModelContent((event => {
-                console.log(event)
+                window.obj = (event)
             }))
         }
     
         document.getElementById('themes').onchange = () => {
             let i = document.getElementById('themes').selectedIndex
             let arr = document.getElementById('themes').options
-            variables.theme = arr[i].value
+            localStorage.theme = arr[i].value
             console.log(variables.theme)
             let model = window.editor.getModel()
-            monaco.editor.setTheme(variables.theme)
+            monaco.editor.setTheme(localStorage.theme)
         }
     
         document.getElementById('strokeSize').onchange = () => {
@@ -188,4 +214,7 @@ $(document).ready( function () {
     $('#signIn').click(signIn)
     enableDrawing()
     enableSettings()
+    db.collection("codeEditor").doc(variables.codeEditorId).onSnapshot(function(snapshot) { 
+        console.log(snapshot.data())
+    });
 })
