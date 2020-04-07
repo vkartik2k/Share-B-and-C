@@ -1,5 +1,4 @@
 $(document).ready( function () {
-
     let db = firebase.firestore();
     $('#drawBoard')[0].height= $('#drawEditor').height()
     $('#drawBoard')[0].width=$('#drawEditor').width()
@@ -18,8 +17,8 @@ $(document).ready( function () {
         },
         defaultCode: {
             'javascript': '// Code your js here',
-            'cpp': '#include<bits/stdc++.h>\nusing namespace std\n\nint main() {\n\n\treturn 0\n\n}\n',
-            'c': '#include <stdio.h>\n\nint main() {\n\n\treturn 0\n\n}\n',
+            'cpp': '#include<bits/stdc++.h>\nusing namespace std\n\nint main() {\n\n\treturn 0;\n\n}\n',
+            'c': '#include <stdio.h>\n\nint main() {\n\n\treturn 0;\n\n}\n',
             'python': '#write your code here',
             'markdown': '# Heading 1',
             'dart': '// code in dart here'
@@ -27,10 +26,13 @@ $(document).ready( function () {
         strokeSize : 2,
         isRecording : false,
         timer : "00:00",
-        codeEditorId : 'fwUqAbDCPHAi7Mi09GYz'
+        codeEditorId : 'fwUqAbDCPHAi7Mi09GYz',
+        paintBuffer : [],
+        startPaintBufferTime : null
     }
 
     function writeInCodeEditor(obj) {
+        localStorage.editorValue = window.editor.getValue()
         if(localStorage.user == "a") {
             db.collection("codeEditor").doc(variables.codeEditorId).set({content : [{
                 range : {
@@ -147,6 +149,16 @@ $(document).ready( function () {
             context.stroke()
             context.beginPath()
             context.moveTo(e.clientX-8, e.clientY - 42)
+
+            variables.paintBuffer.push([e.clientX, e.clientY, Date.now()])
+            if (!variables.startPaintBufferTime) {
+                variables.startPaintBufferTime = Date.now()
+                setTimeout(function () {
+                    console.log(variables.paintBuffer)
+                    variables.paintBuffer = []
+                    variables.startPaintBufferTime = null
+                }, 1000)
+            }
         }
 
         const canvas = $('#drawBoard')[0]
@@ -154,6 +166,13 @@ $(document).ready( function () {
         canvas.addEventListener('mouseup', endPainting)
 
         canvas.addEventListener('mousemove', draw)
+        
+    }
+
+    function saveDrawing() {
+        const canvas = $('#drawBoard')[0]
+        var imgurl= canvas.toDataURL( ) ;
+        console.log(imgurl)
     }
 
     function enableSettings() {
@@ -212,26 +231,45 @@ $(document).ready( function () {
         }
     }
     
+    function updateCodeEditor() {
+        if(localStorage.user != "a") {
+            db.collection("codeEditor").doc(variables.codeEditorId).onSnapshot(function(snapshot) { 
+                let newObj = new monaco.Range(1,1,1,1)
+                console.log(newObj)
+                window.editor.executeEdits("", [
+                    { range: new monaco.Range(
+                        snapshot.data().content[0].range.startLineNumber,
+                        snapshot.data().content[0].range.startColumn,
+                        
+                        snapshot.data().content[0].range.endLineNumber,
+                        
+                        snapshot.data().content[0].range.endColumn,
+                        
+                    ), text: snapshot.data().content[0].text }
+               ]);
+            });
+        }
+    }
+
+    function loadPage() {
+        if(!localStorage.language || localStorage.language == '') {
+            localStorage.language = 'cpp'
+        }
+        if(!localStorage.theme || localStorage.theme == '') {
+            localStorage.theme = 'vs-light'
+        }
+        if(!localStorage.editorValue || localStorage.editorValue == '') {
+            localStorage.editorValue = variables.defaultCode[localStorage.language]
+        }
+        $('#languages option[value="'+localStorage.language+'"]').attr("selected",true);
+        $('#themes option[value="'+localStorage.theme+'"]').attr("selected",true);
+    }
+
+    loadPage()
     loadCodeEditor()
     dragElement($('#mainSlider')[0], "H")
     $('#signIn').click(signIn)
     enableDrawing()
     enableSettings()
-    if(localStorage.user != "a") {
-        db.collection("codeEditor").doc(variables.codeEditorId).onSnapshot(function(snapshot) { 
-            let newObj = new monaco.Range(1,1,1,1)
-            console.log(newObj)
-            window.editor.executeEdits("", [
-                { range: new monaco.Range(
-                    snapshot.data().content[0].range.startLineNumber,
-                    snapshot.data().content[0].range.startColumn,
-                    
-                    snapshot.data().content[0].range.endLineNumber,
-                    
-                    snapshot.data().content[0].range.endColumn,
-                    
-                ), text: snapshot.data().content[0].text }
-           ]);
-        });
-    }
+    updateCodeEditor()
 })
