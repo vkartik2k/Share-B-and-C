@@ -27,6 +27,7 @@ $(document).ready( function () {
         isRecording : false,
         timer : "00:00",
         codeEditorId : 'fwUqAbDCPHAi7Mi09GYz',
+        paintEditorId : 'goH2gdUh4xZUdtXLeBxi',
         paintBuffer : [],
         startPaintBufferTime : null
     }
@@ -136,6 +137,7 @@ $(document).ready( function () {
         }
         const endPainting = () => {
             context.beginPath()
+            variables.paintBuffer.push({x: -1, y:-1,t: variables.startPaintBufferTime ? Date.now()-variables.startPaintBufferTime : 0})
             painting = false
         }
 
@@ -150,11 +152,19 @@ $(document).ready( function () {
             context.beginPath()
             context.moveTo(e.clientX-8, e.clientY - 42)
 
-            variables.paintBuffer.push([e.clientX, e.clientY, Date.now()])
+            variables.paintBuffer.push({x: e.clientX, y: e.clientY,t: variables.startPaintBufferTime ? Date.now()-variables.startPaintBufferTime : 0})
             if (!variables.startPaintBufferTime) {
                 variables.startPaintBufferTime = Date.now()
                 setTimeout(function () {
                     console.log(variables.paintBuffer)
+                    if(localStorage.user == 'a')
+                    db.collection("paintEditor").doc(variables.paintEditorId).set({content : variables.paintBuffer})
+                    .then(function() {
+                        console.log("Object successfully written!");
+                    })
+                    .catch(function(error) {
+                        console.error("Error writing document: ", error);
+                    });
                     variables.paintBuffer = []
                     variables.startPaintBufferTime = null
                 }, 1000)
@@ -168,6 +178,38 @@ $(document).ready( function () {
         canvas.addEventListener('mousemove', draw)
         
     }
+
+    function RTCPaintEditor() {
+        if(localStorage.user != "a") {
+            db.collection("paintEditor").doc(variables.paintEditorId).onSnapshot(function(snapshot) { 
+                let dataArr = snapshot.data().content
+                console.log(dataArr)
+                context.lineWidth = variables.strokeSize
+                context.lineCap = "round"
+                context.strokeStyle = variables.color
+                let q = [];
+                let i=0;
+                let myInterval = setInterval(function () {
+                    while(i<q.length) {
+                        if(q[i].x == -1) {
+                            context.beginPath()
+                            continue;
+                        }
+                        context.lineTo(q[i].x-8, q[i].y - 42)
+                        context.stroke()
+                        context.beginPath()
+                        context.moveTo(q[i].x-8, q[i].y - 42)
+                        i++;
+                    }
+                }, 50)
+                dataArr.forEach(data => {
+                    setTimeout(() => q.push(data), data.t)
+                })
+                setTimeout(() => clearInterval(myInterval), 2000)
+            });
+        }
+    }
+
 
     function saveDrawing() {
         const canvas = $('#drawBoard')[0]
@@ -231,20 +273,15 @@ $(document).ready( function () {
         }
     }
     
-    function updateCodeEditor() {
+    function RTCCodeEditor() {
         if(localStorage.user != "a") {
             db.collection("codeEditor").doc(variables.codeEditorId).onSnapshot(function(snapshot) { 
-                let newObj = new monaco.Range(1,1,1,1)
-                console.log(newObj)
                 window.editor.executeEdits("", [
                     { range: new monaco.Range(
                         snapshot.data().content[0].range.startLineNumber,
                         snapshot.data().content[0].range.startColumn,
-                        
                         snapshot.data().content[0].range.endLineNumber,
-                        
                         snapshot.data().content[0].range.endColumn,
-                        
                     ), text: snapshot.data().content[0].text }
                ]);
             });
@@ -271,5 +308,6 @@ $(document).ready( function () {
     $('#signIn').click(signIn)
     enableDrawing()
     enableSettings()
-    updateCodeEditor()
+    RTCCodeEditor()
+    RTCPaintEditor()
 })
