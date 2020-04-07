@@ -1,10 +1,10 @@
-$(document).ready( function () {
-    let db = firebase.firestore();
-    $('#drawBoard')[0].height= $('#drawEditor').height()
-    $('#drawBoard')[0].width=$('#drawEditor').width()
+$(document).ready(function () {
+    let db = firebase.firestore()
+    $('#drawBoard')[0].height = $('#drawEditor').height()
+    $('#drawBoard')[0].width = $('#drawEditor').width()
     const context = $('#drawBoard')[0].getContext('2d')
 
-    $(window).resize(()=>location.reload())
+    $(window).resize(() => location.reload())
 
     let variables = {
         color: 'white',
@@ -17,45 +17,47 @@ $(document).ready( function () {
         },
         defaultCode: {
             'javascript': '// Code your js here',
-            'cpp': '#include<bits/stdc++.h>\nusing namespace std\n\nint main() {\n\n\treturn 0;\n\n}\n',
-            'c': '#include <stdio.h>\n\nint main() {\n\n\treturn 0;\n\n}\n',
+            'cpp': '#include<bits/stdc++.h>\nusing namespace std\n\nint main() {\n\n\treturn 0\n\n}\n',
+            'c': '#include <stdio.h>\n\nint main() {\n\n\treturn 0\n\n}\n',
             'python': '#write your code here',
             'markdown': '# Heading 1',
             'dart': '// code in dart here'
         },
-        strokeSize : 2,
-        isRecording : false,
-        timer : "00:00",
-        codeEditorId : 'fwUqAbDCPHAi7Mi09GYz',
-        paintEditorId : 'goH2gdUh4xZUdtXLeBxi',
-        paintBuffer : [],
-        startPaintBufferTime : null
+        strokeSize: 2,
+        isRecording: false,
+        timer: "00:00",
+        codeEditorId: 'fwUqAbDCPHAi7Mi09GYz',
+        paintEditorId: 'goH2gdUh4xZUdtXLeBxi',
+        paintBuffer: [],
+        startPaintBufferTime: null
     }
 
     function writeInCodeEditor(obj) {
         localStorage.editorValue = window.editor.getValue()
-        if(localStorage.user == "a") {
-            db.collection("codeEditor").doc(variables.codeEditorId).set({content : [{
-                range : {
-                    startLineNumber: obj.changes[0].range.startLineNumber,
-                    startColumn: obj.changes[0].range.startColumn,
-                    endLineNumber: obj.changes[0].range.endLineNumber,
-                    endColumn: obj.changes[0].range.endColumn,
-                    
-                },
-                text : obj.changes[0].text
-            }]})
-            .then(function() {
-                console.log("Object successfully written!");
+        if (localStorage.user == "a") {
+            db.collection("codeEditor").doc(variables.codeEditorId).set({
+                content: [{
+                    range: {
+                        startLineNumber: obj.changes[0].range.startLineNumber,
+                        startColumn: obj.changes[0].range.startColumn,
+                        endLineNumber: obj.changes[0].range.endLineNumber,
+                        endColumn: obj.changes[0].range.endColumn,
+
+                    },
+                    text: obj.changes[0].text
+                }]
             })
-            .catch(function(error) {
-                console.error("Error writing document: ", error);
-            });
+                .then(function () {
+                    console.log("Object successfully written!")
+                })
+                .catch(function (error) {
+                    console.error("Error writing document: ", error)
+                })
         }
     }
 
-    function loadCodeEditor () {
-        require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor@latest/min/vs' }})
+    function loadCodeEditor() {
+        require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor@latest/min/vs' } })
         window.MonacoEnvironment = { getWorkerUrl: () => proxy }
         let proxy = URL.createObjectURL(new Blob([`
             self.MonacoEnvironment = {
@@ -72,7 +74,7 @@ $(document).ready( function () {
                 minimap: {
                     enabled: false
                 },
-                theme : localStorage.theme
+                theme: localStorage.theme
             })
             window.editor.onDidChangeModelContent((event => writeInCodeEditor(event)))
         })
@@ -103,8 +105,8 @@ $(document).ready( function () {
                 second.style.width = (md.secondWidth - delta.x) + "px"
             }
             window.editor.layout()
-            $('#drawBoard')[0].height= $('#drawEditor').height() - 4
-            $('#drawBoard')[0].width=$('#drawEditor').width()
+            $('#drawBoard')[0].height = $('#drawEditor').height() - 4
+            $('#drawBoard')[0].width = $('#drawEditor').width()
         }
     }
 
@@ -112,20 +114,20 @@ $(document).ready( function () {
         let provider = new firebase.auth.GoogleAuthProvider()
         provider.addScope('https://www.googleapis.com/auth/contacts.readonly')
         firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-        .then(function() {
-            return firebase.auth().signInWithPopup(provider).then(result => {
-                $('#avator').attr('src', result.user.photoURL)
-                $('#avatorContainer').show()
-                $('#joinRoomBtnContainer').show()
-                $('#signInContainer').hide()
-                console.log("hello ji")
-            }).catch(err => console.error(err))
-            
-        })
-        .catch(function(error) {
-            console.error(error.message)
-        })
-        
+            .then(function () {
+                return firebase.auth().signInWithPopup(provider).then(result => {
+                    $('#avator').attr('src', result.user.photoURL)
+                    $('#avatorContainer').show()
+                    $('#joinRoomBtnContainer').show()
+                    $('#signInContainer').hide()
+                    console.log("hello ji")
+                }).catch(err => console.error(err))
+
+            })
+            .catch(function (error) {
+                console.error(error.message)
+            })
+
     }
 
     function enableDrawing() {
@@ -137,7 +139,7 @@ $(document).ready( function () {
         }
         const endPainting = () => {
             context.beginPath()
-            variables.paintBuffer.push({x: -1, y:-1,t: variables.startPaintBufferTime ? Date.now()-variables.startPaintBufferTime : 0})
+            variables.paintBuffer.push({ x: -1, y: -1, t: variables.startPaintBufferTime ? Date.now() - variables.startPaintBufferTime : 0 })
             painting = false
         }
 
@@ -147,27 +149,29 @@ $(document).ready( function () {
             context.lineCap = "round"
             context.strokeStyle = variables.color
 
-            context.lineTo(e.clientX-8, e.clientY - 42)
+            context.lineTo(e.clientX - 8, e.clientY - 42)
             context.stroke()
             context.beginPath()
-            context.moveTo(e.clientX-8, e.clientY - 42)
+            context.moveTo(e.clientX - 8, e.clientY - 42)
 
-            variables.paintBuffer.push({x: e.clientX, y: e.clientY,t: variables.startPaintBufferTime ? Date.now()-variables.startPaintBufferTime : 0})
-            if (!variables.startPaintBufferTime) {
-                variables.startPaintBufferTime = Date.now()
-                setTimeout(function () {
-                    console.log(variables.paintBuffer)
-                    if(localStorage.user == 'a')
-                    db.collection("paintEditor").doc(variables.paintEditorId).set({content : variables.paintBuffer})
-                    .then(function() {
-                        console.log("Object successfully written!");
-                    })
-                    .catch(function(error) {
-                        console.error("Error writing document: ", error);
-                    });
-                    variables.paintBuffer = []
-                    variables.startPaintBufferTime = null
-                }, 1000)
+            if (localStorage.user == 'a') {
+                variables.paintBuffer.push({ x: e.clientX, y: e.clientY, t: variables.startPaintBufferTime ? Date.now() - variables.startPaintBufferTime : 0 })
+                if (!variables.startPaintBufferTime) {
+                    variables.startPaintBufferTime = Date.now()
+                    setTimeout(function () {
+                        console.log(variables.paintBuffer)
+
+                        db.collection("paintEditor").doc(variables.paintEditorId).set({ content: variables.paintBuffer })
+                            .then(function () {
+                                console.log("Object successfully written!")
+                            })
+                            .catch(function (error) {
+                                console.error("Error writing document: ", error)
+                            })
+                        variables.paintBuffer = []
+                        variables.startPaintBufferTime = null
+                    }, 1000)
+                }
             }
         }
 
@@ -176,44 +180,51 @@ $(document).ready( function () {
         canvas.addEventListener('mouseup', endPainting)
 
         canvas.addEventListener('mousemove', draw)
-        
+
     }
 
     function RTCPaintEditor() {
-        if(localStorage.user != "a") {
-            db.collection("paintEditor").doc(variables.paintEditorId).onSnapshot(function(snapshot) { 
+        if (localStorage.user != "a") {
+            let q = []
+            let i = 0
+            myInterval = setInterval(function () {
+                let flagGod = true
+                while (i < q.length) {
+                    if (q[i].x === -1) {
+                        context.beginPath()
+                        console.log("god exists")
+                        flagGod = false
+                        i++
+                        continue
+                    }
+                    if (flagGod) {
+                        context.lineTo(q[i].x - 8, q[i].y - 42)
+                        context.stroke()
+                    }
+                    flagGod = true
+                    context.beginPath()
+                    context.moveTo(q[i].x - 8, q[i].y - 42)
+                    i++
+                }
+            }, 50)
+            let ij = 0
+            db.collection("paintEditor").doc(variables.paintEditorId).onSnapshot(function (snapshot) {
                 let dataArr = snapshot.data().content
-                console.log(dataArr)
                 context.lineWidth = variables.strokeSize
                 context.lineCap = "round"
                 context.strokeStyle = variables.color
-                let q = [];
-                let i=0;
-                let myInterval = setInterval(function () {
-                    while(i<q.length) {
-                        if(q[i].x == -1) {
-                            context.beginPath()
-                            continue;
-                        }
-                        context.lineTo(q[i].x-8, q[i].y - 42)
-                        context.stroke()
-                        context.beginPath()
-                        context.moveTo(q[i].x-8, q[i].y - 42)
-                        i++;
-                    }
-                }, 50)
                 dataArr.forEach(data => {
-                    setTimeout(() => q.push(data), data.t)
+                    setTimeout(() => q.push(data), data.t+(ij*80))
                 })
-                setTimeout(() => clearInterval(myInterval), 2000)
-            });
+                ij++
+                if(i-1==q.length) ij =0
+            })
         }
     }
 
-
     function saveDrawing() {
         const canvas = $('#drawBoard')[0]
-        var imgurl= canvas.toDataURL( ) ;
+        var imgurl = canvas.toDataURL()
         console.log(imgurl)
     }
 
@@ -227,19 +238,19 @@ $(document).ready( function () {
                 document.getElementById(propt).classList.add('selectedColor')
             }
         }
-    
+
         document.getElementById('languages').onchange = () => {
             let i = document.getElementById('languages').selectedIndex
             let arr = document.getElementById('languages').options
             localStorage.language = arr[i].value
             let model = window.editor.getModel()
             monaco.editor.setModelLanguage(model, localStorage.language)
-            var e = document.querySelector("#codeEditor") 
-            var child = e.lastElementChild  
-            while (child) { 
-                e.removeChild(child) 
-                child = e.lastElementChild 
-            } 
+            var e = document.querySelector("#codeEditor")
+            var child = e.lastElementChild
+            while (child) {
+                e.removeChild(child)
+                child = e.lastElementChild
+            }
             localStorage.editorValue = variables.defaultCode[localStorage.language]
             window.editor = monaco.editor.create(document.getElementById('codeEditor'), {
                 value: localStorage.editorValue,
@@ -248,14 +259,14 @@ $(document).ready( function () {
                 minimap: {
                     enabled: false
                 },
-                theme : localStorage.theme
-    
+                theme: localStorage.theme
+
             })
             window.editor.onDidChangeModelContent((event => {
                 window.obj = (event)
             }))
         }
-    
+
         document.getElementById('themes').onchange = () => {
             let i = document.getElementById('themes').selectedIndex
             let arr = document.getElementById('themes').options
@@ -264,7 +275,7 @@ $(document).ready( function () {
             let model = window.editor.getModel()
             monaco.editor.setTheme(localStorage.theme)
         }
-    
+
         document.getElementById('strokeSize').onchange = () => {
             let i = document.getElementById('strokeSize').selectedIndex
             let arr = document.getElementById('strokeSize').options
@@ -272,34 +283,36 @@ $(document).ready( function () {
             console.log(variables.strokeSize)
         }
     }
-    
+
     function RTCCodeEditor() {
-        if(localStorage.user != "a") {
-            db.collection("codeEditor").doc(variables.codeEditorId).onSnapshot(function(snapshot) { 
+        if (localStorage.user != "a") {
+            db.collection("codeEditor").doc(variables.codeEditorId).onSnapshot(function (snapshot) {
                 window.editor.executeEdits("", [
-                    { range: new monaco.Range(
-                        snapshot.data().content[0].range.startLineNumber,
-                        snapshot.data().content[0].range.startColumn,
-                        snapshot.data().content[0].range.endLineNumber,
-                        snapshot.data().content[0].range.endColumn,
-                    ), text: snapshot.data().content[0].text }
-               ]);
-            });
+                    {
+                        range: new monaco.Range(
+                            snapshot.data().content[0].range.startLineNumber,
+                            snapshot.data().content[0].range.startColumn,
+                            snapshot.data().content[0].range.endLineNumber,
+                            snapshot.data().content[0].range.endColumn,
+                        ), text: snapshot.data().content[0].text
+                    }
+                ])
+            })
         }
     }
 
     function loadPage() {
-        if(!localStorage.language || localStorage.language == '') {
+        if (!localStorage.language || localStorage.language == '') {
             localStorage.language = 'cpp'
         }
-        if(!localStorage.theme || localStorage.theme == '') {
+        if (!localStorage.theme || localStorage.theme == '') {
             localStorage.theme = 'vs-light'
         }
-        if(!localStorage.editorValue || localStorage.editorValue == '') {
+        if (!localStorage.editorValue || localStorage.editorValue == '') {
             localStorage.editorValue = variables.defaultCode[localStorage.language]
         }
-        $('#languages option[value="'+localStorage.language+'"]').attr("selected",true);
-        $('#themes option[value="'+localStorage.theme+'"]').attr("selected",true);
+        $('#languages option[value="' + localStorage.language + '"]').attr("selected", true)
+        $('#themes option[value="' + localStorage.theme + '"]').attr("selected", true)
     }
 
     loadPage()
