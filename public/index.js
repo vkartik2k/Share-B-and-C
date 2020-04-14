@@ -3,8 +3,16 @@ $(document).ready(function () {
     $('#drawBoard')[0].height = $('#drawEditor').height()
     $('#drawBoard')[0].width = $('#drawEditor').width()
     const context = $('#drawBoard')[0].getContext('2d')
+    $('#drawBoard')[0].src =  localStorage.drawingFile
 
-    $(window).resize(() => location.reload())
+    $(window).resize(() => {
+        localStorage.drawingFile = ''
+        let a = ''
+        saveDrawing(a)
+        localStorage.drawingFile = a;
+        console.log(a);
+        location.reload()
+    })
 
     let variables = {
         color: 'white',
@@ -17,8 +25,8 @@ $(document).ready(function () {
         },
         defaultCode: {
             'javascript': '// Code your js here',
-            'cpp': '#include<bits/stdc++.h>\nusing namespace std\n\nint main() {\n\n\treturn 0\n\n}\n',
-            'c': '#include <stdio.h>\n\nint main() {\n\n\treturn 0\n\n}\n',
+            'cpp': '#include<bits/stdc++.h>\nusing namespace std\n\nint main() {\n\n\treturn 0;\n\n}\n',
+            'c': '#include <stdio.h>\n\nint main() {\n\n\treturn 0;\n\n}\n',
             'python': '#write your code here',
             'markdown': '# Heading 1',
             'dart': '// code in dart here'
@@ -26,11 +34,16 @@ $(document).ready(function () {
         strokeSize: 2,
         isRecording: false,
         timer: "00:00",
-        codeEditorId: 'fwUqAbDCPHAi7Mi09GYz',
-        paintEditorId: 'goH2gdUh4xZUdtXLeBxi',
+        uId : '',
+        roomId : '',
+        codeEditorId: '',
+        paintEditorId: '',
+        chatRoomId: '',
         paintBuffer: [],
         startPaintBufferTime: null
     }
+
+    let loadingComplete = () => $('#loading').hide()
 
     function writeInCodeEditor(obj) {
         localStorage.editorValue = window.editor.getValue()
@@ -77,6 +90,7 @@ $(document).ready(function () {
                 theme: localStorage.theme
             })
             window.editor.onDidChangeModelContent((event => writeInCodeEditor(event)))
+            loadingComplete()
         })
     }
 
@@ -120,7 +134,7 @@ $(document).ready(function () {
                     $('#avatorContainer').show()
                     $('#joinRoomBtnContainer').show()
                     $('#signInContainer').hide()
-                    console.log("hello ji")
+                    variables.uId = result.user.uid
                 }).catch(err => console.error(err))
 
             })
@@ -222,10 +236,10 @@ $(document).ready(function () {
         }
     }
 
-    function saveDrawing() {
+    function saveDrawing(a) {
         const canvas = $('#drawBoard')[0]
-        var imgurl = canvas.toDataURL()
-        console.log(imgurl)
+        a = canvas.toDataURL()
+        console.log(a)
     }
 
     function enableSettings() {
@@ -314,6 +328,51 @@ $(document).ready(function () {
         $('#languages option[value="' + localStorage.language + '"]').attr("selected", true)
         $('#themes option[value="' + localStorage.theme + '"]').attr("selected", true)
     }
+
+    function createRoom() {
+        let newRoom = db.collection("rooms").doc();
+        let newChatRoom = db.collection("chatRoom").doc();
+        let newCodeEditor = db.collection("codeEditor").doc();
+        let newPaintEditor = db.collection("paintEditor").doc();
+        newPaintEditor.set({
+            content : []
+        })
+        newChatRoom.set({
+            message : []
+        })
+        newCodeEditor.set({
+            content : []
+        })
+        newRoom.set({
+            chatRoom : newChatRoom.id,
+            codeEditor : newCodeEditor.id,
+            paintEditor : newPaintEditor,
+            admin : variables.uId,
+        })
+        variables.roomId = newRoom.id
+        variables.codeEditorId = newCodeEditor.id
+        variables.paintEditorId = newPaintEditor.id
+        console.log("new rooms created")
+    }
+
+    function joinRoom() {
+        let roomId = something;
+        db.collection('rooms').doc(roomId).get()
+        .then(function(doc) {
+            if(doc.exists) {
+                let currRoom = doc.data();
+                variables.roomId = roomId
+                variables.codeEditorId = currRoom.codeEditor
+                variables.paintEditorId = currRoom.paintEditor
+                variables.chatRoomId  
+            }
+        })
+        .catch(function() {
+            console.log("Invalid Room ID")
+        }) 
+    }
+
+    $('#joinRoomOpenerBtn').click(() => $('#joinRoomOverlay').show())
 
     loadPage()
     loadCodeEditor()
