@@ -13,14 +13,13 @@
     <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-analytics.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
     <script src="./firebaseConfig.js"></script>
 
     <link rel="stylesheet" href="./index.css">
 </head>
 
 <body>
-
-
     <div id="mobileView">
         This website does not support mobile view.
     </div>
@@ -48,6 +47,9 @@
 
     <div id="container">
         <div id="header">
+            <div id="logo">
+                <img src="assets/logo.png" width="120px"/>
+            </div>
             <div id="colorPalatte">
                 <div class="colorPick selectedColor" id="white"></div>
                 <div class="colorPick" id="teal"></div>
@@ -57,44 +59,13 @@
             </div>
             <div id="toolBox">
                 <div class="tool">
-                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                        width="24px" height="24px" viewBox="0 0 48 48">
-                        <g transform="translate(0, 0)">
-                            <rect x="11.651" y="24.672" width="29.113" height="7.071"
-                                transform="translate(-12.27 26.793) rotate(-45)" fill="#444444"></rect>
-                            <rect x="5.237" y="18.257" width="29.113" height="7.071"
-                                transform="translate(-9.613 20.379) rotate(-45)" fill="#444444"></rect>
-                            <path data-color="color-2"
-                                d="M44.828,8.929,39.07,3.171a4,4,0,0,0-5.656,0L29,7.586,40.414,19l4.414-4.415a4,4,0,0,0,0-5.656Z"
-                                fill="#444444"></path>
-                            <path data-color="color-2"
-                                d="M5.877,31.291,2.038,44.725A1,1,0,0,0,3,46a.981.981,0,0,0,.274-.039l13.435-3.838Z"
-                                fill="#444444"></path>
-                        </g>
-                    </svg>
+                    <img src="assets/pencil.png" width="40px" id="pencil">
                 </div>
                 <div class="tool">
-                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                        width="24px" height="24px" viewBox="0 0 16 16">
-                        <g transform="translate(0, 0)">
-                            <path fill="#444444"
-                                d="M14,0.8C13.9,0.3,13.5,0,13,0H3C2.5,0,2.1,0.3,2,0.8c0,0-2,7.7-2,8.2v6c0,0.6,0.4,1,1,1h14c0.6,0,1-0.4,1-1 V9C16,8.5,14,0.8,14,0.8z M3.8,2h8.4l1.5,6H11c-0.6,0-1,0.4-1,1v2H6V9c0-0.6-0.4-1-1-1H2.3L3.8,2z">
-                            </path>
-                        </g>
-                    </svg>
+                    <img src="assets/eraser.png" width="40px" id="eraser">
                 </div>
                 <div class="tool">
-                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                        width="24px" height="24px" viewBox="0 0 64 64">
-                        <g transform="translate(0, 0)">
-                            <path
-                                d="M10,16V56a6,6,0,0,0,6,6H48a6,6,0,0,0,6-6V16ZM23,49a1,1,0,0,1-2,0V27a1,1,0,0,1,2,0Zm10,0a1,1,0,0,1-2,0V27a1,1,0,0,1,2,0Zm10,0a1,1,0,0,1-2,0V27a1,1,0,0,1,2,0Z"
-                                fill="#444444"></path>
-                            <path data-color="color-2"
-                                d="M60,12H43V3a1,1,0,0,0-1-1H22a1,1,0,0,0-1,1v9H4a1,1,0,0,0,0,2H60a1,1,0,0,0,0-2ZM23,4H41v8H23Z"
-                                fill="#444444"></path>
-                        </g>
-                    </svg>
+                    <img src="assets/clear.png" width="40px" id="clear">
                 </div>
             </div>
             <div>
@@ -154,12 +125,8 @@
             </div>
         </div>
     </div>
-    <!-- <div id="messageContainer">
-        <div class="message">Yes Sir</div>
-        <div class="message">Sure Sir</div>
-        <div class="message">Do we have a class tomm.?</div>
-        <div class="message">Yes Sir</div>
-    </div> -->
+    <div id="messageContainer">
+    </div>
 
     <script src="./codeEditor.js"></script>
     <script src="./index.js"></script>

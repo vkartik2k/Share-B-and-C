@@ -2,6 +2,7 @@ html, body {
     height: 100%;
     width: 100%;
     margin: 0px;
+    font-family: 'Manrope', sans-serif;
     overflow: hidden;
 }
 
@@ -20,7 +21,7 @@ html, body {
 #header {
     height: 50px;
     width: 100%;
-    background-color: rgb(243, 243, 243);
+    background-color: white;
     display: flex;
     align-items: center;
 }
@@ -40,7 +41,7 @@ html, body {
     display: flex;
     padding-left: 8px;
     padding-right: 8px;
-    background-color: rgb(243, 243, 243);
+    background-color: white;
 }
 
 #codeEditor {
@@ -78,8 +79,8 @@ html, body {
 
 #colorPalatte, #toolBox {
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: flex-end;
     padding: 10px;
 
 }
@@ -100,7 +101,7 @@ html, body {
 }
 
 .tool {
-    margin: 10px;
+    margin: 5px;
 }
 
 #white {
@@ -123,7 +124,7 @@ html, body {
 }
 
 .dropDown {
-    background-color: rgb(243, 243, 243);
+    background-color: white;
     padding: 8px;
     border: 1px solid rgb(70, 70, 70);
     border-radius: 5px;
@@ -136,7 +137,7 @@ html, body {
 }
 
 .btn {
-    background-color: rgb(243, 243, 243);
+    background-color: white;
     padding: 8px;
     border: 1px solid rgb(26, 26, 26);
     color: rgb(26, 26, 26);
@@ -152,11 +153,11 @@ html, body {
 
 .btn:hover {
     transition: 0.5s;
-    color: rgb(243, 243, 243);
+    color: white;
     background-color: rgb(26, 26, 26);
 }
 .redBtn:hover {
-    color: rgb(243, 243, 243);
+    color: white;
     background-color: rgb(195, 0, 0);
 }
 
@@ -165,7 +166,7 @@ html, body {
 }
 
 .textInput {
-    background-color: rgb(243, 243, 243);
+    background-color: white;
     padding: 8px;
     border: 1px solid rgb(70, 70, 70);
     border-radius: 5px;
@@ -190,11 +191,15 @@ html, body {
 
 .message {
     padding: 10px;
-    margin-bottom:10px;
+    margin-bottom:5px;
     width : 100%;
-    background-color: rgb(54, 54, 54);
-    color: rgb(243, 243, 243)   ;
+    background-color: rgb(22, 22, 22);
+    color: white;
     border-radius: 5px;
+    border-left: 4px solid #B83227;
+    -webkit-box-shadow: 0px 0px 15px -3px rgba(0,0,0,0.12);
+    -moz-box-shadow: 0px 0px 15px -3px rgba(0,0,0,0.12);
+    box-shadow: 0px 0px 15px -3px rgba(0,0,0,0.12);
 }
 
 #avatorContainer {
@@ -232,7 +237,7 @@ html, body {
 }
 
 #joinRoomContainer {
-    background-color: rgb(243, 243, 243);
+    background-color: white;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -310,4 +315,10 @@ html, body {
     #mobileView {
         display: block;
     }
+  }
+
+
+  #logo {
+      padding-left: 10px;
+      padding-right: 10px;
   }

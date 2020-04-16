@@ -3,7 +3,7 @@ $(document).ready(function () {
     $('#drawBoard')[0].height = $('#drawEditor').height()
     $('#drawBoard')[0].width = $('#drawEditor').width()
     const context = $('#drawBoard')[0].getContext('2d')
-    $('#drawBoard')[0].src =  localStorage.drawingFile
+    $('#drawBoard')[0].src = localStorage.drawingFile
 
     $(window).resize(() => {
         localStorage.drawingFile = ''
@@ -34,20 +34,22 @@ $(document).ready(function () {
         strokeSize: 2,
         isRecording: false,
         timer: "00:00",
-        uId : '',
-        roomId : '',
+        uId: '',
+        roomId: '',
         codeEditorId: '',
         paintEditorId: '',
         chatRoomId: '',
         paintBuffer: [],
-        startPaintBufferTime: null
+        startPaintBufferTime: null,
+        msgId: 1,
+        isEraser: false,
     }
 
     let loadingComplete = () => $('#loading').hide()
 
     function writeInCodeEditor(obj) {
         localStorage.editorValue = window.editor.getValue()
-        if (localStorage.user == "a") {
+        if (false) {
             db.collection("codeEditor").doc(variables.codeEditorId).set({
                 content: [{
                     range: {
@@ -147,6 +149,10 @@ $(document).ready(function () {
     function enableDrawing() {
         let painting = false
 
+        $('#clear').on('click', function () {
+            context.clearRect(0, 0, $('#drawEditor').height(), $('#drawEditor').height());
+        })
+
         const startPainting = (e) => {
             painting = true
             draw(e)
@@ -159,16 +165,16 @@ $(document).ready(function () {
 
         const draw = e => {
             if (!painting) return
-            context.lineWidth = variables.strokeSize
+            context.lineWidth = variables.isEraser ? 25 :variables.strokeSize
             context.lineCap = "round"
-            context.strokeStyle = variables.color
+            context.strokeStyle = variables.isEraser ? '#02203c' :variables.color
 
             context.lineTo(e.clientX - 8, e.clientY - 42)
             context.stroke()
             context.beginPath()
             context.moveTo(e.clientX - 8, e.clientY - 42)
 
-            if (localStorage.user == 'a') {
+            if (false) {
                 variables.paintBuffer.push({ x: e.clientX, y: e.clientY, t: variables.startPaintBufferTime ? Date.now() - variables.startPaintBufferTime : 0 })
                 if (!variables.startPaintBufferTime) {
                     variables.startPaintBufferTime = Date.now()
@@ -198,7 +204,7 @@ $(document).ready(function () {
     }
 
     function RTCPaintEditor() {
-        if (localStorage.user != "a") {
+        if (false) {
             let q = []
             let i = 0
             myInterval = setInterval(function () {
@@ -228,10 +234,10 @@ $(document).ready(function () {
                 context.lineCap = "round"
                 context.strokeStyle = variables.color
                 dataArr.forEach(data => {
-                    setTimeout(() => q.push(data), data.t+(ij*80))
+                    setTimeout(() => q.push(data), data.t + (ij * 80))
                 })
                 ij++
-                if(i-1==q.length) ij =0
+                if (i - 1 == q.length) ij = 0
             })
         }
     }
@@ -299,7 +305,7 @@ $(document).ready(function () {
     }
 
     function RTCCodeEditor() {
-        if (localStorage.user != "a") {
+        if (false) {
             db.collection("codeEditor").doc(variables.codeEditorId).onSnapshot(function (snapshot) {
                 window.editor.executeEdits("", [
                     {
@@ -335,19 +341,19 @@ $(document).ready(function () {
         let newCodeEditor = db.collection("codeEditor").doc();
         let newPaintEditor = db.collection("paintEditor").doc();
         newPaintEditor.set({
-            content : []
+            content: []
         })
         newChatRoom.set({
-            message : []
+            message: []
         })
         newCodeEditor.set({
-            content : []
+            content: []
         })
         newRoom.set({
-            chatRoom : newChatRoom.id,
-            codeEditor : newCodeEditor.id,
-            paintEditor : newPaintEditor,
-            admin : variables.uId,
+            chatRoom: newChatRoom.id,
+            codeEditor: newCodeEditor.id,
+            paintEditor: newPaintEditor,
+            admin: variables.uId,
         })
         variables.roomId = newRoom.id
         variables.codeEditorId = newCodeEditor.id
@@ -358,18 +364,18 @@ $(document).ready(function () {
     function joinRoom() {
         let roomId = something;
         db.collection('rooms').doc(roomId).get()
-        .then(function(doc) {
-            if(doc.exists) {
-                let currRoom = doc.data();
-                variables.roomId = roomId
-                variables.codeEditorId = currRoom.codeEditor
-                variables.paintEditorId = currRoom.paintEditor
-                variables.chatRoomId  
-            }
-        })
-        .catch(function() {
-            console.log("Invalid Room ID")
-        }) 
+            .then(function (doc) {
+                if (doc.exists) {
+                    let currRoom = doc.data();
+                    variables.roomId = roomId
+                    variables.codeEditorId = currRoom.codeEditor
+                    variables.paintEditorId = currRoom.paintEditor
+                    variables.chatRoomId
+                }
+            })
+            .catch(function () {
+                console.log("Invalid Room ID")
+            })
     }
 
     $('#joinRoomOpenerBtn').click(() => $('#joinRoomOverlay').show())
@@ -382,4 +388,23 @@ $(document).ready(function () {
     enableSettings()
     RTCCodeEditor()
     RTCPaintEditor()
+    function addNewMessage(msg) {
+        $('#messageContainer').html('<div class="message" id="msg' + variables.msgId + '">' + msg + '</div>' + $('#messageContainer').html())
+        let currentId = variables.msgId
+        variables.msgId += 1
+        setTimeout(() => {
+            $('#msg' + currentId).hide()
+        }, 15000)
+    }
+
+    $('.textInput').on('keypress', function (e) {
+        if (e.which === 13) {
+            addNewMessage($(this).val())
+            $(this).val('')
+        }
+    })
+
+
+    $('#pencil').on('click', ()=> variables.isEraser = false)
+    $('#eraser').on('click', ()=> variables.isEraser = true)
 })
