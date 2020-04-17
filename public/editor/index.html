@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Share B&C</title>
+
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-analytics.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="./firebaseConfig.js"></script>
+
+    <link rel="stylesheet" href="./index.css">
+</head>
+
+<body>
+    <div id="mobileView">
+        This website does not support mobile view.
+    </div>
+
+    <div id="loading">
+        <div class="spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+    </div>
+
+    <div id="joinRoomOverlay">
+        <div id="joinRoomContainer">
+            <button class="btn" id="createRoomBtn">Create Room</button>
+            <br>
+            OR
+            <br>
+            <input class="textInput" placeholder="Room Id" />
+            <input class="textInput" placeholder="Display Name" />
+            <button class="btn" id="joinRoomBtn">Join Room</button>
+        </div>
+    </div>
+
+
+    <div id="container">
+        <div id="header">
+            <div id="logo">
+                <img src="assets/logo.png" width="120px"/>
+            </div>
+            <div id="colorPalatte">
+                <div class="colorPick selectedColor" id="white"></div>
+                <div class="colorPick" id="teal"></div>
+                <div class="colorPick" id="purple"></div>
+                <div class="colorPick" id="red"></div>
+                <div class="colorPick" id="brown"></div>
+            </div>
+            <div id="toolBox">
+                <div class="tool">
+                    <img src="assets/pencil.png" width="40px" id="pencil">
+                </div>
+                <div class="tool">
+                    <img src="assets/eraser.png" width="40px" id="eraser">
+                </div>
+                <div class="tool">
+                    <img src="assets/clear.png" width="40px" id="clear">
+                </div>
+            </div>
+            <div>
+                <select class="dropDown" id="strokeSize">
+                    <option value="1">1 px</option>
+                    <option value="2" selected>2 px</option>
+                    <option value="3">3 px</option>
+                    <option value="4">4 px</option>
+                    <option value="5">5 px</option>
+                    <option value="6">6 px</option>
+                </select>
+            </div>
+
+            <div>
+                <select class="dropDown" id="languages">
+                    <option value="cpp">C++</option>
+                    <option value="javascript">JavaScript </option>
+                    <option value="python">Python</option>
+                    <option value="c">C</option>
+                    <option value="dart">Dart</option>
+                    <option value="markdown">MarkDown</option>
+                </select>
+            </div>
+            <div>
+                <select class="dropDown" id="themes">
+                    <option value="vs-light">Light</option>
+                    <option value="vs-dark">Dark</option>
+                </select>
+            </div>
+            <div style="flex:1;"></div>
+            <div id="signInContainer">
+                <button class="btn redBtn" id="signIn">Sign In With Google</button>
+            </div>
+            <div id="joinRoomBtnContainer" style="display: none;">
+                <button class="btn" id="joinRoomOpenerBtn">Join Room</button>
+            </div>
+            <div id="avatorContainer" style="display: none;">
+                <img src="" id="avator" />
+            </div>
+        </div>
+        <div id="mainContainer">
+            <div id="drawEditor">
+                <canvas id="drawBoard">
+                </canvas>
+            </div>
+            <div id="mainSlider"></div>
+            <div id="codeEditor">
+
+            </div>
+        </div>
+        <div id="footer">
+            <div>
+                <button class="btn redBtn" id="recordBtn"> &nbsp;•&nbsp; Record&nbsp;</button>
+            </div>
+            <div>
+                <input class="textInput" placeholder="Enter your message here ... " />
+            </div>
+        </div>
+    </div>
+    <div id="messageContainer">
+    </div>
+
+    <script src="./codeEditor.js"></script>
+    <script src="./index.js"></script>
+</body>
+
+</html>
