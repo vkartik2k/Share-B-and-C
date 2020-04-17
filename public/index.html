@@ -1,14 +1,318 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>ShareBnC</title>
+    <title>Kartik Verma</title>
 
     <link rel="stylesheet" href="./index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js">
+    </script>
+    <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Baloo+Chettan+2|Montserrat|Righteous|Sen&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway|Source+Sans+Pro&display=swap" rel="stylesheet">
 </head>
+
 <body>
-    
+    <div class="headerContainer">
+        <div class="header">
+            <div class="headerLogo"><img src="./logo.png" width="120px"></div>
+            <a href='#home'>
+                <div class="selected" id="navHome">Home</div>
+            </a>
+            <a href='#skills'>
+                <div id="navSkills">Working</div>
+            </a>
+            <a href='#activity'>
+                <div id="navActivity">Statistics</div>
+            </a>
+            <a href='#projects'>
+                <div id="navProjects">Contact</div>
+            </a>
+            <!-- <a href='#contact'>
+                        <div id="navContact">Contact</div>
+                    </a> -->
+        </div>
+
+    </div>
+    <div class="mainBanner" id="home">
+        <div class="mainBannerInner">
+            <div class="imgContainer" style="flex: 1; text-align: center;">
+                <img src="banner.png" class="bannerImg">
+            </div>
+        </div>
+        <div class="mainBannerInner" style="padding-right: 50px; padding-left: 50px; width:800px;">
+            <span style="font-size: 40px; font-weight: 700;">
+                ShareBnC
+            </span>
+            <br />
+            <br />
+            Live sharing enabled code editor and drawing tool
+            <br />
+            <br />
+            <br />
+            <br />
+            <button onclick="location.href='http://kartikverma.co/sharebnc/editor'" class="fill">
+                <div style="display: flex; align-items: center; justify-content: center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                        width="22px" height="22px" viewBox="0 0 48 48">
+                        <g transform="translate(0, 0)">
+                            <path fill="#B3B3B3"
+                                d="M11.95508,23.2124c-0.26562,0-0.51953-0.10547-0.70703-0.29297l-6.85547-6.85547 c-0.32227-0.32227-0.38574-0.82227-0.1543-1.21484c0.75-1.27197,1.62891-2.41504,2.6123-3.39844 c4.95605-4.95605,12.31738-6.36621,18.75195-3.59424C25.90625,7.9873,26.125,8.25928,26.18848,8.5835 c0.06348,0.32373-0.03711,0.6582-0.26953,0.89355l-13.25195,13.4375c-0.18652,0.18994-0.44238,0.29688-0.70801,0.29785 C11.95703,23.2124,11.95605,23.2124,11.95508,23.2124z">
+                            </path>
+                            <path fill="#B3B3B3"
+                                d="M32.64258,43.8999c-0.25879,0-0.51465-0.1001-0.70703-0.29297l-6.91602-6.91602 c-0.18848-0.18799-0.29395-0.44336-0.29297-0.70996c0.00098-0.26611,0.10742-0.521,0.29688-0.70801l13.44922-13.30322 c0.23438-0.23145,0.56738-0.33154,0.89062-0.27148c0.32324,0.06152,0.5957,0.27832,0.72754,0.57959 c2.84473,6.46729,1.4541,13.875-3.54199,18.87158c-0.98145,0.98193-2.125,1.86035-3.39844,2.61182 C32.99219,43.85449,32.81738,43.8999,32.64258,43.8999z">
+                            </path>
+                            <path fill="#E6E6E6"
+                                d="M8.04395,27.34131c-0.14941,0.37207-0.0625,0.79688,0.2207,1.08008l11.31348,11.31348 c0.19141,0.19141,0.44727,0.29297,0.70703,0.29297c0.12793,0,0.25586-0.02441,0.37891-0.07422 c0.18848-0.07733,14.57507-6.15625,21.92511-21.36444L29.36237,5.36237C14.12976,12.69263,8.11975,27.1521,8.04395,27.34131z">
+                            </path>
+                            <path fill="#E86C60"
+                                d="M46.4502,1.55273c-0.20117-0.20215-0.49414-0.31104-0.76074-0.29297 c-6.34113,0.33087-11.74622,1.89819-16.32709,4.1026l13.22681,13.22681c2.21027-4.5733,3.79181-9.96222,4.15009-16.27423 C46.75586,2.03125,46.65039,1.75439,46.4502,1.55273z">
+                            </path>
+                            <path fill="#76B5B5"
+                                d="M27.35547,25.64062c-1.28027,0-2.56055-0.4873-3.53516-1.46191c-1.94922-1.94922-1.94922-5.12158,0-7.0708 l0,0c1.9502-1.95117,5.12305-1.94922,7.07129,0c0.94434,0.94434,1.46484,2.19971,1.46484,3.53516 c0,1.33594-0.52051,2.59131-1.46484,3.53564C29.91699,25.15332,28.63672,25.64062,27.35547,25.64062z">
+                            </path>
+                            <path fill="#EA9860"
+                                d="M5.51074,45.05273c-0.73438,0-1.31543-0.03564-1.58496-0.05566 c-0.49414-0.03662-0.88672-0.4292-0.92285-0.92334c-0.07129-0.95557-0.33398-5.81396,1.46191-7.60938l0,0l0,0 C5.40918,35.52002,6.66406,35,8,35s2.59082,0.52002,3.53516,1.46436c1.94922,1.94971,1.94922,5.12158,0,7.07129 C10.24707,44.82422,7.37988,45.05273,5.51074,45.05273z">
+                            </path>
+                        </g>
+                    </svg>
+                    &nbsp;
+                    <span style="color: #192A56;">Launch</span>
+                </div>
+
+            </button>
+        </div>
+    </div>
+    <div id="skills">
+        <div class="sectionHeading">Skills</div>
+        <div class="skillContent">
+            I possess knowledge about c++ and advanced data structures. I am also a full stack web engineer.
+        </div>
+        <div class="skillsContainer">
+            <div class="progressContainer">
+                <div class="progessText">
+                    <div class="progressSubject">C++</div>
+                    <div class="progressPercent">Proficient</div>
+                </div>
+                <div class="progressOuter">
+                    <div class="progressInner cpp">
+                    </div>
+                </div>
+            </div>
+            <div class="progressContainer">
+                <div class="progessText">
+                    <div class="progressSubject">Data Structures</div>
+                    <div class="progressPercent">Proficient</div>
+                </div>
+                <div class="progressOuter">
+                    <div class="progressInner ds">
+                    </div>
+                </div>
+            </div>
+            <div class="progressContainer">
+                <div class="progessText">
+                    <div class="progressSubject">JavaScript</div>
+                    <div class="progressPercent">Intermediate</div>
+                </div>
+                <div class="progressOuter">
+                    <div class="progressInner js">
+                    </div>
+                </div>
+            </div>
+            <div class="progressContainer">
+                <div class="progessText">
+                    <div class="progressSubject">NodeJS</div>
+                    <div class="progressPercent">Intermediate</div>
+                </div>
+                <div class="progressOuter">
+                    <div class="progressInner nodejs">
+                    </div>
+                </div>
+            </div>
+            <div class="progressContainer">
+                <div class="progessText">
+                    <div class="progressSubject">HTML</div>
+                    <div class="progressPercent">Proficient</div>
+                </div>
+                <div class="progressOuter">
+                    <div class="progressInner html">
+                    </div>
+                </div>
+            </div>
+            <div class="progressContainer">
+                <div class="progessText">
+                    <div class="progressSubject">CSS</div>
+                    <div class="progressPercent">Proficient</div>
+                </div>
+                <div class="progressOuter">
+                    <div class="progressInner css">
+                    </div>
+                </div>
+            </div>
+            <div class="progressContainer">
+                <div class="progessText">
+                    <div class="progressSubject">ReactJS</div>
+                    <div class="progressPercent">Intermediate</div>
+                </div>
+                <div class="progressOuter">
+                    <div class="progressInner react">
+                    </div>
+                </div>
+            </div>
+            <div class="progressContainer">
+                <div class="progessText">
+                    <div class="progressSubject">React Native</div>
+                    <div class="progressPercent">Beginner</div>
+                </div>
+                <div class="progressOuter">
+                    <div class="progressInner reactn">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="activity">
+        <div class="sectionHeading">Live Activity</div>
+        <div class="currentActivity">
+            <a href="https://codeforces.com/profile/vkartik2k">
+                <div class="miniActivity">
+                    <img src="http://sta.codeforces.com/s/82835/images/codeforces-logo-with-telegram.png" width="100%">
+                    <br>
+                    <span id="cfRating">null</span>
+                    <br>
+                    Current Rating
+                </div>
+            </a>
+            <a href="https://github.com/vkartik2k">
+                <div class="miniActivity">
+                    <img src="data:image/png;base64,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"
+                        width="60%" />
+                    <br />
+                    <span id="githubRepos">12</span>
+                    <br />
+                    Public Repositories
+                </div>
+            </a>
+        </div>
+        <div class="calendar" style="width: 840px !important">
+            Loading information from GitHub
+        </div>
+    </div>
+    <div id="projects">
+        <div class="sectionHeading">Projects</div>
+        <div class="projectsContainer">
+            <div class="project">
+                <img src="./assests/a.png" class="projectImg">
+                <div class="projectHead">
+                    <div class="projectHeading">Buy Fresh</div>
+                    <div class="projectDate">December 2019</div>
+                </div>
+                <div class="projectInfo">
+                    A hybrid app through which a farmer can sell their crops and vegetables online. Consumers can buy
+                    the crops directly using the website and negotiate with the farmer for better rates.
+                </div>
+                <div class="projectStackContainer">
+                    <div class="projectStack">Node.js</div>
+                    <div class="projectStack stackFramework">React native</div>
+                    <div class="projectStack stackDB">MySQL</div>
+                    <div class="projectStack stackLanguage">JavaScript</div>
+                </div>
+            </div>
+            <div class="project">
+                <img src="./assests/b.png" class="projectImg">
+                <div class="projectHead">
+                    <div class="projectHeading">Almnater</div>
+                    <div class="projectDate">Febuary 2020</div>
+                </div>
+                <div class="projectInfo">
+                    Almnater is an alumni connection portal available to university students. Sections such as mock
+                    interviews, discussion forum and blogs are added.
+                </div>
+                <div class="projectStackContainer">
+                    <div class="projectStack">Node.js</div>
+                    <div class="projectStack stackFramework">React.js</div>
+                    <div class="projectStack stackDB">MySQl</div>
+                    <div class="projectStack stackLanguage">JavaScript</div>
+                </div>
+            </div>
+            <div class="project">
+                <img src="./assests/c.png" class="projectImg">
+                <div class="projectHead">
+                    <div class="projectHeading">Bus Tracking and booking app</div>
+                    <div class="projectDate">August 2019</div>
+                </div>
+                <div class="projectInfo">
+                    A hybrid app capable of tracking live locations of DTC buses and showing them to users. Users can
+                    buy tickets online using app and show the generated QRCode to the conductor.
+                </div>
+                <div class="projectStackContainer">
+                    <div class="projectStack">Node.js</div>
+                    <div class="projectStack stackFramework">React Native</div>
+                    <div class="projectStack stackDB">MySQL</div>
+                    <div class="projectStack stackLanguage">JavaScript</div>
+                </div>
+            </div>
+            <div class="project">
+                <img src="./assests/d.png" class="projectImg">
+                <div class="projectHead">
+                    <div class="projectHeading">Mental Well-being Tracking System</div>
+                    <div class="projectDate">November 2019</div>
+                </div>
+                <div class="projectInfo">
+                    A chrome extension developed to track mental well-being of university students. The results of this
+                    extension are shown in a dashboard provided to university authorities.
+                </div>
+                <div class="projectStackContainer">
+                    <div class="projectStack">Node.js</div>
+                    <div class="projectStack stackFramework">Flask</div>
+                    <div class="projectStack stackFramework">Keras</div>
+                    <div class="projectStack stackDB">MySQL</div>
+                    <div class="projectStack stackLanguage">Python</div>
+                    <div class="projectStack stackLanguage">JavaScript</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="contactMe" id="contact">
+        <span class="contactHeading">Want to collab over a project?<b>Get in touch!</b></span>
+        <div class="monkeyContainer">
+            <div class="monkey">🙈</div>
+            <div class="monkey">🙊</div>
+            <div class="monkey">🙉</div>
+        </div>
+        <div class="form">
+            <div class="formLine">
+                <input placeholder="Name" />
+                <input placeholder="Email" />
+            </div>
+            <div class="formLine">
+                <input placeholder="Subject" />
+            </div>
+            <div class="formLine">
+                <textarea placeholder="Message"></textarea>
+            </div>
+            <div class="formLine2">
+                <button class="fill">Send</button>
+            </div>
+        </div>
+    </div> -->
+    <div class="footer">
+        <span class="headerLogo">K.</span>
+        <br />
+        Made for the ❤️ of programming by Kartik Verma
+        <br />
+        vkartik2k@gmail.com
+        <br />
+        <br />
+        <hr style="width: 50%;" />
+        Copyright © 2020 Kartik Verma
+    </div>
+    <script src="./index.js"></script>
 </body>
+
 </html>
