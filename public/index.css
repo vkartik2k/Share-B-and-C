@@ -1,5 +1,5 @@
 .imgContainer {
-    
+    padding-bottom: 10px;
 }
 
 .bannerImg {
@@ -8,8 +8,6 @@
     -webkit-box-shadow: 0px 0px 53px 3px rgba(0,0,0,0.36);
 -moz-box-shadow: 0px 0px 53px 3px rgba(0,0,0,0.36);
 box-shadow: 0px 0px 53px 3px rgba(0,0,0,0.36);
-
-
 }
 
 
@@ -332,47 +330,10 @@ textarea:focus {
     font-family: 'Sen';
 }
 
-@keyframes wiggle {
-    0% { transform: rotate(0deg); }
-    25% { transform: rotate(7deg); }
-    50% { transform: rotate(0deg); }
-    75% { transform: rotate(-7deg); }
-    100% { transform: rotate(0deg); }
-} 
-
-@media only screen and (max-width: 768px) {
-    .mainBanner {
-        padding-left: 15px;
-        padding-right: 15px;
-    }
-
-    .mainBannerInner {
-        width: 100%;
-    }
-
-    .monkeyContainer {
-        font-size: 36px;
-    }
-
-    .contactMe {
-        padding: 0px;
-    }
-
-    .calendar {
-        display: none !important;
-    }
-    .form {
-        padding-left: 10px;
-        padding-right: 10px;
-    }
-    .skillsContainer {
-        padding-left: 50px;
-        padding-right: 50px;
-    }
-    .headerLogo {
-        display: none;
-    }
+.descriptiveBannner {
+    width: 70%;
 }
+
 
 .currentActivity {
     padding: 10px;
@@ -417,4 +378,77 @@ textarea:focus {
     padding-right: 14px;
     margin-left: 10px;
     margin-right: 10px;
+}
+
+.appFeature {
+    display: flex;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    padding:50px;
+    flex-wrap: wrap;
+}
+
+.featureContainer {
+    width: 250px;
+    padding-bottom: 30px;
+}
+
+@keyframes wiggle {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(7deg); }
+    50% { transform: rotate(0deg); }
+    75% { transform: rotate(-7deg); }
+    100% { transform: rotate(0deg); }
+} 
+
+@media only screen and (max-width: 768px) {
+    .mainBanner {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .mainBannerInner {
+        width: 100%;
+    }
+
+    .monkeyContainer {
+        font-size: 36px;
+    }
+
+    .contactMe {
+        padding: 0px;
+    }
+
+    .calendar {
+        display: none !important;
+    }
+    .form {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .skillsContainer {
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+    .headerLogo {
+        display: none;
+    }
+    .descriptiveBannner {
+        width: 100%;
+    }
+    .bannerImg {
+        width: 80%;
+    }
+    .appFeature {
+        padding:20px;
+    }
+    .imgContainer {
+        padding-bottom: 60px;
+    }
+    .mainBanner {
+        flex-wrap: wrap;
+    }
 }

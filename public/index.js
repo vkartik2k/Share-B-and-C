@@ -1,4 +1,8 @@
 $(document).ready(function () {
+
+	$('button').hover(()=> {
+		$('.launchBtn').css('color', 'white')
+	})
 	$(document).on("scroll", onScroll)
 
 	$('a[href^="#"]').on('click', function (e) {
