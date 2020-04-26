@@ -6,11 +6,6 @@ $(document).ready(function () {
     $('#drawBoard')[0].src = localStorage.drawingFile
 
     $(window).resize(() => {
-        localStorage.drawingFile = ''
-        let a = ''
-        saveDrawing(a)
-        localStorage.drawingFile = a;
-        console.log(a);
         location.reload()
     })
 
@@ -165,9 +160,9 @@ $(document).ready(function () {
 
         const draw = e => {
             if (!painting) return
-            context.lineWidth = variables.isEraser ? 25 :variables.strokeSize
+            context.lineWidth = variables.isEraser ? 25 : variables.strokeSize
             context.lineCap = "round"
-            context.strokeStyle = variables.isEraser ? '#02203c' :variables.color
+            context.strokeStyle = variables.isEraser ? '#02203c' : variables.color
 
             context.lineTo(e.clientX - 8, e.clientY - 42)
             context.stroke()
@@ -336,6 +331,7 @@ $(document).ready(function () {
     }
 
     function createRoom() {
+        console.log("new rooms created")
         let newRoom = db.collection("rooms").doc();
         let newChatRoom = db.collection("chatRoom").doc();
         let newCodeEditor = db.collection("codeEditor").doc();
@@ -358,11 +354,37 @@ $(document).ready(function () {
         variables.roomId = newRoom.id
         variables.codeEditorId = newCodeEditor.id
         variables.paintEditorId = newPaintEditor.id
+        console.log(variables.roomId)
+        if (variables.roomId != null && variables.roomId != '') {
+            $('#joinRoomContainer').html(`<h1>Room Created Successfully</h1>
+            Share this room id only with people you trust
+            <br>
+            <br>
+            <input class="textInput" placeholder="Room Id" value=`+ newRoom.id + ` />
+            <br/>
+            <br>
+            <button class="btn" id="joinRoomBtn">Copy to clipboard</button>`);
+        }
         console.log("new rooms created")
     }
 
     function joinRoom() {
-        let roomId = something;
+        let roomId = $('#joinRoomId').val();
+        if (roomId == '') {
+            $('#joinRoomContainer').html(`            
+            <button class="btn" id="createRoomBtn">Create Room</button>
+            <br>
+            OR
+            <br>
+            Invalid room id! Please enter a valid Id.
+            <br>
+            <input class="textInput" placeholder="Room Id" id="joinRoomId"/>
+            <input class="textInput" placeholder="Display Name" />
+            <button class="btn" id="joinRoomBtn">Join Room</button>`);
+            return
+        }
+        console.log(roomId)
+
         db.collection('rooms').doc(roomId).get()
             .then(function (doc) {
                 if (doc.exists) {
@@ -371,9 +393,33 @@ $(document).ready(function () {
                     variables.codeEditorId = currRoom.codeEditor
                     variables.paintEditorId = currRoom.paintEditor
                     variables.chatRoomId
+                    console.log('Hello ji')
+                    $('#joinRoomOverlay').hide()
+                }
+                else {
+                    $('#joinRoomContainer').html(`            
+                    <button class="btn" id="createRoomBtn">Create Room</button>
+                    <br>
+                    OR
+                    <br>
+                    Invalid room id! Please enter a valid Id.
+                    <br>
+                    <input class="textInput" placeholder="Room Id" id="joinRoomId"/>
+                    <input class="textInput" placeholder="Display Name" />
+                    <button class="btn" id="joinRoomBtn">Join Room</button>`);
                 }
             })
             .catch(function () {
+                $('#joinRoomContainer').html(`            
+                    <button class="btn" id="createRoomBtn">Create Room</button>
+                    <br>
+                    OR
+                    <br>
+                    Invalid room id! Please enter a valid Id.
+                    <br>
+                    <input class="textInput" placeholder="Room Id" id="joinRoomId"/>
+                    <input class="textInput" placeholder="Display Name" />
+                    <button class="btn" id="joinRoomBtn">Join Room</button>`);
                 console.log("Invalid Room ID")
             })
     }
@@ -403,8 +449,16 @@ $(document).ready(function () {
             $(this).val('')
         }
     })
+    $('#joinRoomBtnContainer').show()
+    $('#createRoomBtn').on('click', () => createRoom())
+    $('#joinRoomBtn').on('click', () => joinRoom())
 
+    $(document).click(function (e) {
+        if ($('#joinRoomOverlay').is(e.target) && !$('#joinRoomContainer').is(e.target)) {
+            $('#joinRoomOverlay').hide()
+        }
+    })
 
-    $('#pencil').on('click', ()=> variables.isEraser = false)
-    $('#eraser').on('click', ()=> variables.isEraser = true)
+    $('#pencil').on('click', () => variables.isEraser = false)
+    $('#eraser').on('click', () => variables.isEraser = true)
 })
